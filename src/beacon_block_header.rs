@@ -1,11 +1,16 @@
 use ethereum_types::H256;
 use json::{parse, JsonValue};
 use std::str::FromStr;
+use serde_json::from_str;
+use serde_derive::{Deserialize, Serialize};
 
 pub type Hash256 = H256;
 
+#[derive(Deserialize, Serialize)]
 pub struct BeaconBlockHeader {
+    #[serde(with = "eth2_serde_utils::quoted_u64")]
     pub slot: u64,
+    #[serde(with = "eth2_serde_utils::quoted_u64")]
     pub proposer_index: u64,
     pub parent_root: Hash256,
     pub state_root: Hash256,
@@ -71,4 +76,30 @@ mod tests {
         assert_eq!(format!("{:?}", bheader.parent_root), "0x1cfedbc04788917c188bdab08bf1ed4ece4f352782b61989e142a211fe876c4c");
         assert_eq!(format!("{:?}", bheader.state_root), "0xc40e5fae29997182dbafa0e091d41b27d9bbd6ac388df271e9224d3c0240017f");
     }
+
+    #[test]
+    fn header_from_sedre_json() {
+        let header_json_str = r#"
+        {
+            "slot": "0",
+            "proposer_index": "1",
+            "parent_root": "0x1cfedbc04788917c188bdab08bf1ed4ece4f352782b61989e142a211fe876c4c",
+            "state_root": "0xc40e5fae29997182dbafa0e091d41b27d9bbd6ac388df271e9224d3c0240017f",
+            "body_root": "0xb4d27c714e935a2970033c00ebb1d756336ded865e84fd22bec3395971158ab6"
+        }
+        "#;
+       
+        println!("{:?}", header_json_str);
+
+        let bheader : crate::BeaconBlockHeader = serde_json::from_str(header_json_str).unwrap();
+
+        assert_eq!(bheader.slot, 0);
+        assert_eq!(bheader.proposer_index, 1);
+        assert_eq!(bheader.body_root[0], 0xb4);
+        assert_eq!(format!("{:?}", bheader.body_root), "0xb4d27c714e935a2970033c00ebb1d756336ded865e84fd22bec3395971158ab6");
+        assert_eq!(format!("{:?}", bheader.parent_root), "0x1cfedbc04788917c188bdab08bf1ed4ece4f352782b61989e142a211fe876c4c");
+        assert_eq!(format!("{:?}", bheader.state_root), "0xc40e5fae29997182dbafa0e091d41b27d9bbd6ac388df271e9224d3c0240017f");
+  
+    }
+
 }

@@ -10,3 +10,8 @@ ethereum-types = "0.12.1"
 json = "*"
 bls = { path = "ext/crypto/bls" }
 eth2_ssz_types = { path = "ext/ssz_types" }
+envy = "*"
+serde_json = "1.0.74"
+serde = {version = "1.0.116" , features = ["rc"] }
+serde_derive = "1.0.116"
+eth2_serde_utils = { path = "ext/serde_utils" }
