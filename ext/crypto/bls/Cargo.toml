@@ -1,0 +1,28 @@
+[package]
+name = "bls"
+version = "0.2.0"
+authors = ["Paul Hauner <paul@paulhauner.com>"]
+edition = "2021"
+
+[dependencies]
+eth2_ssz = { path = "../../ssz" }
+tree_hash = { path = "../../tree_hash" }
+milagro_bls = { git = "https://github.com/sigp/milagro_bls", tag = "v1.4.2", optional = true }
+rand = "0.7.3"
+serde = "1.0.116"
+serde_derive = "1.0.116"
+eth2_serde_utils = { path = "../../serde_utils" }
+hex = "0.4.2"
+eth2_hashing = { path = "../eth2_hashing" }
+ethereum-types = "0.12.1"
+arbitrary = { version = "1.0", features = ["derive"], optional = true }
+zeroize = { version = "1.4.2", features = ["zeroize_derive"] }
+blst = "0.3.3"
+
+[features]
+default = ["supranational"]
+fake_crypto = []
+milagro = ["milagro_bls"]
+supranational = []
+supranational-portable = ["supranational", "blst/portable"]
+supranational-force-adx = ["supranational", "blst/force-adx"]
