@@ -123,6 +123,10 @@ mod tests {
         println!("{:?}", proofg);
 
         assert_eq!(bbody.eth1_data.tree_hash_root(), proofg.0);
+        
+        use ethereum_types::H256;
+        let aproof : [H256; 4] = [proofg.1[0], proofg.1[1], proofg.1[2], proofg.1[3]];
+        assert!(merkle_proof::verify_merkle_proof(proofg.0, &aproof, 4, 1, bbody.tree_hash_root()));
 
     }
 }
