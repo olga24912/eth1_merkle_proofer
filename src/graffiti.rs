@@ -1,4 +1,5 @@
 use serde::{de::Error, Deserialize, Deserializer, Serialize, Serializer};
+use tree_hash::TreeHash;
 
 pub const GRAFFITI_BYTES_LEN: usize = 32;
 
@@ -35,5 +36,23 @@ pub mod serde_graffiti {
         array[..].copy_from_slice(&bytes);
 
         Ok(array)
+    }
+}
+
+impl TreeHash for Graffiti {
+    fn tree_hash_type() -> tree_hash::TreeHashType {
+        <[u8; GRAFFITI_BYTES_LEN]>::tree_hash_type()
+    }
+
+    fn tree_hash_packed_encoding(&self) -> Vec<u8> {
+        self.0.tree_hash_packed_encoding()
+    }
+
+    fn tree_hash_packing_factor() -> usize {
+        <[u8; GRAFFITI_BYTES_LEN]>::tree_hash_packing_factor()
+    }
+
+    fn tree_hash_root(&self) -> tree_hash::Hash256 {
+        self.0.tree_hash_root()
     }
 }

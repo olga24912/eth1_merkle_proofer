@@ -3,8 +3,9 @@ use ssz_types::VariableList;
 use crate::attestation_data::AttestationData;
 use bls::AggregateSignature;
 use serde_derive::{Deserialize, Serialize};
+use tree_hash_derive::TreeHash;
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, TreeHash)]
 pub struct IndexedAttestation {
     /// Lists validator registry indices, not committee indices.
     #[serde(with = "quoted_variable_list_u64")]

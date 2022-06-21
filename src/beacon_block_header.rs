@@ -3,10 +3,11 @@ use json::{parse, JsonValue};
 use std::str::FromStr;
 use serde_json::from_str;
 use serde_derive::{Deserialize, Serialize};
+use tree_hash_derive::TreeHash;
 
 pub type Hash256 = H256;
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, TreeHash)]
 pub struct BeaconBlockHeader {
     #[serde(with = "eth2_serde_utils::quoted_u64")]
     pub slot: u64,

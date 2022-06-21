@@ -15,3 +15,6 @@ serde_json = "1.0.74"
 serde = {version = "1.0.116" , features = ["rc"] }
 serde_derive = "1.0.116"
 eth2_serde_utils = { path = "ext/serde_utils" }
+tree_hash = { path = "ext/tree_hash" }
+tree_hash_derive = "0.4.0"
+merkle_proof = { path = "ext/merkle_proof" }
